@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    active: local
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/bus-data?serverTimezone=Asia/Seoul
@@ -15,3 +18,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  servlet:
+    multipart:
+      maxFileSize: 25MB
+      maxRequestSize: 25MB
+
+kakao:
+  api:
+    key: 69c185d26790927124eefc410ad1d89e
