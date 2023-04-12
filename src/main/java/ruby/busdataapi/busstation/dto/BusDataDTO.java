@@ -2,9 +2,12 @@ package ruby.busdataapi.busstation.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Builder
+@Setter
 @Getter
+@NoArgsConstructor
 public class BusDataDTO {
     private String stationId;
     private String name;
@@ -14,5 +17,14 @@ public class BusDataDTO {
 
     private String lat;
     private String lng;
-    private String bcode;
+
+    @Builder
+    public BusDataDTO(String stationId, String name, String address, String roadAddress, String lat, String lng) {
+        this.stationId = stationId;
+        this.name = name;
+        this.address = address;
+        this.roadAddress = roadAddress;
+        this.lat = lat;
+        this.lng = lng;
+    }
 }

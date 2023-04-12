@@ -45,7 +45,7 @@ public class KaKaoMapService {
         String restApiKey = kakaoProperties.getKey();
 
         // 카카오맵 하루 최대 10만 건 조회 가능
-        busData = busData.subList(0, Math.min(busData.size(), 20000));
+        busData = busData.subList(0, Math.min(busData.size(), 1000));
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
