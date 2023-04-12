@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ruby.busdataapi.busstation.dto.BusDataDTO;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RestController
@@ -20,7 +21,7 @@ public class BusStationController {
     private final KaKaoMapService kaKaoMapService;
 
     @PostMapping("/renewal")
-    public void renewal(@RequestPart MultipartFile busDataFile) {
+    public void renewal(@RequestPart MultipartFile busDataFile) throws ExecutionException, InterruptedException {
 
         /**
          * TODO

@@ -1,16 +1,17 @@
 package ruby.busdataapi.busstation;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ruby.busdataapi.busstation.dto.BusDataDTO;
+import ruby.busdataapi.properties.KakaoProperties;
 
 import java.net.URI;
 import java.util.List;
@@ -18,10 +19,10 @@ import java.util.Objects;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class KaKaoMapService {
 
-    @Value("${kakao.api.key}")
-    private String restApiKey;
+    private final KakaoProperties kakaoProperties;
     private final String KAKAO_MAP_API = "https://dapi.kakao.com/v2/local/geo/coord2address.json";
 
     @Getter
@@ -41,7 +42,9 @@ public class KaKaoMapService {
     }
 
     public List<BusStation> getBusStationsByKakaoApi(List<BusDataDTO> busData) {
-        // TODO - 카카오맵 하루 최대 10만 건 조회 가능
+        String restApiKey = kakaoProperties.getKey();
+
+        // 카카오맵 하루 최대 10만 건 조회 가능
         busData = busData.subList(0, Math.min(busData.size(), 20000));
 
         RestTemplate restTemplate = new RestTemplate();
@@ -64,6 +67,8 @@ public class KaKaoMapService {
                         if (!hasDocuments(documents)) {
                             return null;
                         }
+
+                        log.info("data : {}", documents);
 
                         AddressData addressData = new AddressData(documents);
                         return BusStation.builder()

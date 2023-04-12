@@ -23,7 +23,3 @@ spring:
     multipart:
       maxFileSize: 25MB
       maxRequestSize: 25MB
-
-kakao:
-  api:
-    key: 69c185d26790927124eefc410ad1d89e
