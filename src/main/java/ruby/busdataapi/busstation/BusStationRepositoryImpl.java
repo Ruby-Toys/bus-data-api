@@ -25,19 +25,25 @@ public class BusStationRepositoryImpl implements BusStationRepositoryCustom {
         Pageable pageable = PageRequest.of(page, pageSize);
         String search = searchCondition.getSearch();
 
-        JPAQuery<BusStation> query = jpaQueryFactory
+        List<BusStation> busStations = jpaQueryFactory
                 .selectFrom(busStation)
                 .where(
-                        busStation.name.contains(search),
-                        busStation.address.contains(search),
-                        busStation.roadAddress.contains(search)
-                );
-
-        List<BusStation> busStations = query
+                        busStation.name.contains(search)
+                                .or(busStation.address.contains(search))
+                                .or(busStation.roadAddress.contains(search))
+                )
                 .orderBy(busStation.id.desc())
                 .limit(pageSize)
                 .offset(pageable.getOffset())
                 .fetch();
+
+        JPAQuery<BusStation> query = jpaQueryFactory
+                .selectFrom(busStation)
+                .where(
+                        busStation.name.contains(search)
+                                .or(busStation.address.contains(search))
+                                .or(busStation.roadAddress.contains(search))
+                );
 
         return PageableExecutionUtils.getPage(busStations, pageable, () -> query.fetch().size());
     }
